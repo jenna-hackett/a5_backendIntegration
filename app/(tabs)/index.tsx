@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 4f8741739fda7e8ce1fea995e77a9840e10e5b17
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,8 +20,4 @@ export default function Index() {
   );
 }
 
-<<<<<<< HEAD
 const styles = StyleSheet.create({});
-=======
-const styles = StyleSheet.create({})
->>>>>>> 4f8741739fda7e8ce1fea995e77a9840e10e5b17
