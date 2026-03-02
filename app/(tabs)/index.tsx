@@ -19,5 +19,5 @@ export default function Index() {
     </SafeAreaView>
   );
 }
-
+// add in styles.
 const styles = StyleSheet.create({});
