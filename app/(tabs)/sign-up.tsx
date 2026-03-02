@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import * as Yup from "yup";
-import FormError from "./ui/components/form-error";
+import FormError from "../ui/components/form-error";
 
 type SignUpValues = {
   fullName: string;

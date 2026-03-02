@@ -1,4 +1,5 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
 
 import { Tabs } from "expo-router";
 
@@ -22,10 +23,10 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="info-form"
+        name="sign-up"
         options={{
           tabBarIcon: ({ color }) => (
-            <AntDesign name="form" size={24} color={color} />
+            <Feather name="user-plus" size={24} color={color} />
           ),
         }}
       />
