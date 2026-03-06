@@ -1,5 +1,6 @@
 import { Formik } from "formik";
 import {
+  ActivityIndicator,
   Alert,
   Pressable,
   StyleSheet,
@@ -147,7 +148,11 @@ export default function InfoForm() {
                 disabled={isSubmitting}
                 style={[styles.button, isSubmitting && styles.disabled]}
               >
-                <Text style={styles.buttonText}>Submit</Text>
+                {isSubmitting ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Text style={styles.buttonText}>Submit</Text>
+                )}
               </Pressable>
 
               {status && <FormError message={status} />}
