@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import * as Yup from "yup";
-import FormError from "./ui/components/form-error";
+import FormError from "../ui/components/form-error";
 
 type infoValues = {
   firstName: string;
@@ -18,8 +18,6 @@ type infoValues = {
   email: string;
   sin: string;
 };
-
-//todo - add stack navigation
 
 const infoSchema = Yup.object({
   firstName: Yup.string().required("First name cannot be blank"),
@@ -171,12 +169,11 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   header: {
-    padding: 50,
+    paddingVertical: 35,
   },
   headerText: {
     fontSize: 28,
     fontWeight: "700",
-    textAlign: "center",
   },
   field: {
     flexDirection: "column",
