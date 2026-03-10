@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import * as Yup from "yup";
-import FormError from "../ui/components/form-error";
+import FormError from "../ui/components/FormError";
 
 type infoValues = {
   firstName: string;
