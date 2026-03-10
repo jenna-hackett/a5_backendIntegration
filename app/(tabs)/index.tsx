@@ -1,4 +1,5 @@
 import { useRouter } from "expo-router";
+import { Formik } from "formik";
 import {
   ActivityIndicator,
   Pressable,
@@ -7,8 +8,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-// import { SafeAreaView } from "react-native-safe-area-context";
-import { Formik } from "formik";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
 import FormError from "../ui/components/FormError";
 
@@ -31,73 +31,77 @@ export default function Index() {
   const router = useRouter();
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={loginSchema}
-      onSubmit={async (values, { setStatus }) => {
-        setStatus(undefined);
-        try {
-          console.log("Form is valid! Data:", values);
-          router.push("/infoForm");
-        } catch (err) {
-          setStatus(
-            "Login failed. Please check your credentials and try again.",
-          );
-        }
-      }}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        status,
-      }) => (
-        <View style={styles.container}>
-          <Text style={styles.title}>Sign In</Text>
+    <SafeAreaView>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={loginSchema}
+        onSubmit={async (values, { setStatus }) => {
+          setStatus(undefined);
+          try {
+            console.log("Form is valid! Data:", values);
+            router.push("/infoForm");
+          } catch (err) {
+            setStatus(
+              "Login failed. Please check your credentials and try again.",
+            );
+          }
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          status,
+        }) => (
+          <View style={styles.container}>
+            <Text style={styles.title}>Sign In</Text>
 
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            value={values.email}
-            onChangeText={handleChange("email")}
-            onBlur={handleBlur("email")}
-          ></TextInput>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your email"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              value={values.email}
+              onChangeText={handleChange("email")}
+              onBlur={handleBlur("email")}
+            ></TextInput>
 
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your password"
-            secureTextEntry
-            value={values.password}
-            onChangeText={handleChange("password")}
-            onBlur={handleBlur("password")}
-          ></TextInput>
-          <FormError message={touched.password ? errors.password : undefined} />
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your password"
+              secureTextEntry
+              value={values.password}
+              onChangeText={handleChange("password")}
+              onBlur={handleBlur("password")}
+            ></TextInput>
+            <FormError
+              message={touched.password ? errors.password : undefined}
+            />
 
-          <Pressable
-            style={[styles.button, isSubmitting && styles.buttonDisabled]}
-            onPress={() => handleSubmit()}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator />
-            ) : (
-              <Text style={styles.buttonText}>Sign In</Text>
-            )}
-          </Pressable>
+            <Pressable
+              style={[styles.button, isSubmitting && styles.buttonDisabled]}
+              onPress={() => handleSubmit()}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <ActivityIndicator />
+              ) : (
+                <Text style={styles.buttonText}>Sign In</Text>
+              )}
+            </Pressable>
 
-          {/* Global Error */}
-          {status && <FormError message={status} />}
-        </View>
-      )}
-    </Formik>
+            {/* Global Error */}
+            {status && <FormError message={status} />}
+          </View>
+        )}
+      </Formik>
+    </SafeAreaView>
   );
 }
 
