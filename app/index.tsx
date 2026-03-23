@@ -12,10 +12,12 @@ import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
-  <SafeAreaView>
-    <View>
-      <Text>Welcome!</Text>
-      <Text>Please sign up or sign in to access the Information Form.</Text>
-    </View>
-  </SafeAreaView>;
+  return (
+    <SafeAreaView>
+      <View>
+        <Text>Welcome!</Text>
+        <Text>Please sign up or sign in to access the Information Form.</Text>
+      </View>
+    </SafeAreaView>
+  );
 }
