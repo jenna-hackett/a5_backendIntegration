@@ -12,6 +12,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
 import FormError from "../src/ui/components/FormError";
 
+// TODO: ADD A LOGOUT BUTTON ON THIS PAGE!!!!!!!!
+
 type infoValues = {
   firstName: string;
   lastName: string;
