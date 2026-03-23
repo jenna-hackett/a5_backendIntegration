@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import FormError from "../../src/ui/components/FormError";
+import FormError from "../src/ui/components/FormError";
 
 type infoValues = {
   firstName: string;
