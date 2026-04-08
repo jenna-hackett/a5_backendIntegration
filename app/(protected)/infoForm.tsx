@@ -16,9 +16,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
-//to-do - if !user render nothing, or use protected guard in root layout page
-
-type infoValues = {
+export type infoValues = {
   firstName: string;
   lastName: string;
   phone: string;
@@ -81,9 +79,17 @@ export default function InfoForm() {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Employee Information Form</Text>
-          <Pressable onPress={handleLogout} style={styles.smallButton}>
-            <Text style={styles.buttonText}>Log Out</Text>
-          </Pressable>
+          <View style={styles.buttonRow}>
+            <Pressable
+              onPress={() => router.push("/(protected)/list")}
+              style={styles.smallButton}
+            >
+              <Text style={styles.buttonText}>View Entries</Text>
+            </Pressable>
+            <Pressable onPress={handleLogout} style={styles.smallButton}>
+              <Text style={styles.buttonText}>Log Out</Text>
+            </Pressable>
+          </View>
         </View>
         <Formik
           initialValues={initialValues}
@@ -263,5 +269,10 @@ const styles = StyleSheet.create({
     padding: 8,
     marginTop: 10,
     backgroundColor: "black",
+  },
+  buttonRow: {
+    paddingTop: 10,
+    flexDirection: "row",
+    gap: 10,
   },
 });

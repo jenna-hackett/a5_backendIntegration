@@ -22,6 +22,12 @@ export default function Index() {
         <Pressable onPress={() => router.push("/infoForm")}>
           <Text>InfoForm</Text>
         </Pressable>
+        <Pressable onPress={() => router.push("/signUp")}>
+          <Text>Sign Up</Text>
+        </Pressable>
+        <Pressable onPress={() => router.push("/signIn")}>
+          <Text>Sign In</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
