@@ -61,6 +61,9 @@ export default function SignUpScreen() {
             Alert.alert("Success", "Account Created!");
             resetForm();
             router.replace("/(protected)/infoForm");
+            {
+              /*change this link to /(protected)/signIn*/
+            }
           } catch (err) {
             console.log(err);
             setStatus("Something went wrong. Please try again.");
