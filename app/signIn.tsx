@@ -26,7 +26,7 @@ const loginSchema = Yup.object({
     .required("Password is required"),
 });
 
-export default function singIn() {
+export default function signIn() {
   const initialValues: LoginValues = { email: "", password: "" };
 
   return (
