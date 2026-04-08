@@ -1,4 +1,5 @@
 import { db } from "@/config/firebase";
+import { useRouter } from "expo-router";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -11,6 +12,8 @@ type EmployeeInfo = infoValues & {
 
 export default function Submissions() {
   const [items, setItems] = useState<EmployeeInfo[]>([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -35,7 +38,7 @@ export default function Submissions() {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Employee Info Submissions</Text>
-          <Pressable style={styles.smallButton}>
+          <Pressable onPress={() => router.back()} style={styles.smallButton}>
             <Text style={styles.buttonText}>Back to Form</Text>
           </Pressable>
         </View>

@@ -105,9 +105,12 @@ export default function SignIn() {
           </View>
         )}
       </Formik>
-      <Pressable onPress={() => router.push("/signUp")}>
-        <Text>Sign Up</Text>
-      </Pressable>
+      <View style={styles.footer}>
+        <Text>Don&apos;t have an account?</Text>
+        <Pressable onPress={() => router.push("/signUp")}>
+          <Text style={styles.text}>Sign Up</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
@@ -155,5 +158,14 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "white",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingTop: 20,
+  },
+  text: {
+    fontWeight: "bold",
+    paddingLeft: 3,
   },
 });

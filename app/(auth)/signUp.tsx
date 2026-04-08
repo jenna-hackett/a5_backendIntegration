@@ -149,6 +149,12 @@ export default function SignUpScreen() {
           </View>
         )}
       </Formik>
+      <View style={styles.footer}>
+        <Text>Already have an account?</Text>
+        <Pressable onPress={() => router.push("/signIn")}>
+          <Text style={styles.text}>Log In</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
@@ -192,5 +198,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontWeight: "700",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingTop: 20,
+  },
+  text: {
+    fontWeight: "bold",
+    paddingLeft: 3,
   },
 });
