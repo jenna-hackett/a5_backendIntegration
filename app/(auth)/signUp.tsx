@@ -1,3 +1,4 @@
+import FormError from "@/src/utils/FormError";
 import { Formik } from "formik";
 import {
   ActivityIndicator,
@@ -10,51 +11,51 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import FormError from "../src/utils/FormError";
 
-type LoginValues = {
+type SignUpValues = {
+  fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
-const loginSchema = Yup.object({
+const signUpSchema = Yup.object().shape({
+  fullName: Yup.string().required("Full name is required"),
+
   email: Yup.string()
-    .email("Enter a valid email")
+    .email("Please enter a valid email address")
     .required("Email is required"),
+
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
+
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Confirm password is required"),
 });
 
-export default function signIn() {
-  const initialValues: LoginValues = { email: "", password: "" };
+const initialValues: SignUpValues = {
+  fullName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
+export default function SignUpScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Formik
         initialValues={initialValues}
-        validationSchema={loginSchema}
+        validationSchema={signUpSchema}
         onSubmit={async (values, { setStatus, resetForm }) => {
           setStatus(undefined);
           try {
-            console.log("Form is valid! Data:", values);
-
-            // Create the pop-up
-            Alert.alert(
-              "Login Successful",
-              "Welcome back! You have successfully signed in.",
-              [
-                {
-                  text: "OK",
-                  onPress: () => {
-                    console.log("User clicked OK");
-                    resetForm(); // Clears the inputs after successful login.
-                  },
-                },
-              ],
-            );
+            console.log("Signed up!", values);
+            Alert.alert("Success", "Account Created!");
+            resetForm();
           } catch (err) {
-            setStatus("Login failed. Please check your credentials.");
+            setStatus("Something went wrong. Please try again.");
           }
         }}
       >
@@ -69,31 +70,59 @@ export default function signIn() {
           status,
         }) => (
           <View style={styles.container}>
-            <Text style={styles.title}>Sign In</Text>
+            <Text style={styles.title}>Create Account</Text>
+
+            <Text style={styles.label}>Full Name</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Jane Doe"
+              autoCapitalize="words"
+              value={values.fullName}
+              onChangeText={handleChange("fullName")}
+              onBlur={handleBlur("fullName")}
+            />
+            <FormError
+              message={touched.fullName ? errors.fullName : undefined}
+            />
 
             <Text style={styles.label}>Email</Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter your email"
+              placeholder="jane@example.com"
               autoCapitalize="none"
               keyboardType="email-address"
               value={values.email}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
-            ></TextInput>
+            />
             <FormError message={touched.email ? errors.email : undefined} />
 
             <Text style={styles.label}>Password</Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter your password"
+              placeholder="Min. 8 characters"
               secureTextEntry
               value={values.password}
               onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}
-            ></TextInput>
+            />
             <FormError
               message={touched.password ? errors.password : undefined}
+            />
+
+            <Text style={styles.label}>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Re-enter your password"
+              secureTextEntry
+              value={values.confirmPassword}
+              onChangeText={handleChange("confirmPassword")}
+              onBlur={handleBlur("confirmPassword")}
+            />
+            <FormError
+              message={
+                touched.confirmPassword ? errors.confirmPassword : undefined
+              }
             />
 
             <Pressable
@@ -102,13 +131,12 @@ export default function signIn() {
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <ActivityIndicator />
+                <ActivityIndicator color="white" />
               ) : (
-                <Text style={styles.buttonText}>Sign In</Text>
+                <Text style={styles.buttonText}>Create Account</Text>
               )}
             </Pressable>
 
-            {/* Global Error */}
             {status && <FormError message={status} />}
           </View>
         )}
@@ -118,6 +146,10 @@ export default function signIn() {
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: "white",
+    flex: 1,
+  },
   container: {
     padding: 16,
     gap: 10,
@@ -140,25 +172,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   button: {
-    width: "100%",
-    borderColor: "black",
-    borderWidth: 1,
+    marginTop: 8,
+    backgroundColor: "#111",
+    paddingVertical: 12,
     borderRadius: 8,
-    padding: 8,
-    marginTop: 10,
-    backgroundColor: "black",
+    alignItems: "center",
   },
   buttonDisabled: {
     opacity: 0.6,
   },
   buttonText: {
-    textAlign: "center",
     color: "white",
-    fontSize: 15,
     fontWeight: "700",
-  },
-  safeArea: {
-    flex: 1,
-    backgroundColor: "white",
   },
 });

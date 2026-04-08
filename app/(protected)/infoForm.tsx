@@ -1,4 +1,8 @@
+import { db } from "@/config/firebase";
+import { useAuth } from "@/contexts/authContext";
+import FormError from "@/src/utils/FormError";
 import { useRouter } from "expo-router";
+import { addDoc, collection } from "firebase/firestore";
 import { Formik } from "formik";
 import {
   ActivityIndicator,
@@ -11,9 +15,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import FormError from "../src/utils/FormError";
 
-// TODO: ADD A LOGOUT BUTTON ON THIS PAGE!!!!!!!!
+//to-do - if !user render nothing, or use protected guard in root layout page
 
 type infoValues = {
   firstName: string;
@@ -46,31 +49,48 @@ const initialValues: infoValues = {
 };
 export default function InfoForm() {
   const router = useRouter();
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/");
+  };
+
+  const handleFormSubmit = async (
+    values: infoValues,
+    setStatus: (msg: string | undefined) => void,
+    resetForm: () => void,
+  ) => {
+    setStatus(undefined);
+    try {
+      await addDoc(collection(db, "employeeInfo"), {
+        ...values,
+        userId: user?.uid,
+      });
+
+      Alert.alert("Success", "Form Submitted");
+      resetForm();
+    } catch (error) {
+      console.log(error);
+      setStatus("Error submitting form");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Employee Information Form</Text>
-          <Pressable
-            onPress={() => router.push("/")}
-            style={styles.smallButton}
-          >
+          <Pressable onPress={handleLogout} style={styles.smallButton}>
             <Text style={styles.buttonText}>Log Out</Text>
           </Pressable>
         </View>
         <Formik
           initialValues={initialValues}
           validationSchema={infoSchema}
-          onSubmit={(values, { setStatus, resetForm }) => {
-            setStatus(undefined);
-            try {
-              console.log("Submitted:", values);
-              Alert.alert("Success", "Form submitted!");
-              resetForm();
-            } catch (error) {
-              setStatus("Error. Please try again.");
-            }
-          }}
+          onSubmit={(values, { setStatus, resetForm }) =>
+            handleFormSubmit(values, setStatus, resetForm)
+          }
         >
           {({
             values,

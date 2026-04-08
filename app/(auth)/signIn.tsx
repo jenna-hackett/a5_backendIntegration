@@ -1,3 +1,4 @@
+import FormError from "@/src/utils/FormError";
 import { Formik } from "formik";
 import {
   ActivityIndicator,
@@ -10,52 +11,50 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import FormError from "../src/utils/FormError";
 
-type SignUpValues = {
-  fullName: string;
+type LoginValues = {
   email: string;
   password: string;
-  confirmPassword: string;
 };
 
-const signUpSchema = Yup.object().shape({
-  fullName: Yup.string().required("Full name is required"),
-
+const loginSchema = Yup.object({
   email: Yup.string()
-    .email("Please enter a valid email address")
+    .email("Enter a valid email")
     .required("Email is required"),
-
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
-
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords must match")
-    .required("Confirm password is required"),
 });
 
-const initialValues: SignUpValues = {
-  fullName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
+export default function signIn() {
+  const initialValues: LoginValues = { email: "", password: "" };
 
-export default function SignUpScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Formik
         initialValues={initialValues}
-        validationSchema={signUpSchema}
+        validationSchema={loginSchema}
         onSubmit={async (values, { setStatus, resetForm }) => {
           setStatus(undefined);
           try {
-            console.log("Signed up!", values);
-            Alert.alert("Success", "Account Created!");
-            resetForm();
+            console.log("Form is valid! Data:", values);
+
+            // Create the pop-up
+            Alert.alert(
+              "Login Successful",
+              "Welcome back! You have successfully signed in.",
+              [
+                {
+                  text: "OK",
+                  onPress: () => {
+                    console.log("User clicked OK");
+                    resetForm(); // Clears the inputs after successful login.
+                  },
+                },
+              ],
+            );
           } catch (err) {
-            setStatus("Something went wrong. Please try again.");
+            setStatus("Login failed. Please check your credentials.");
           }
         }}
       >
@@ -70,59 +69,31 @@ export default function SignUpScreen() {
           status,
         }) => (
           <View style={styles.container}>
-            <Text style={styles.title}>Create Account</Text>
-
-            <Text style={styles.label}>Full Name</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Jane Doe"
-              autoCapitalize="words"
-              value={values.fullName}
-              onChangeText={handleChange("fullName")}
-              onBlur={handleBlur("fullName")}
-            />
-            <FormError
-              message={touched.fullName ? errors.fullName : undefined}
-            />
+            <Text style={styles.title}>Sign In</Text>
 
             <Text style={styles.label}>Email</Text>
             <TextInput
               style={styles.input}
-              placeholder="jane@example.com"
+              placeholder="Enter your email"
               autoCapitalize="none"
               keyboardType="email-address"
               value={values.email}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
-            />
+            ></TextInput>
             <FormError message={touched.email ? errors.email : undefined} />
 
             <Text style={styles.label}>Password</Text>
             <TextInput
               style={styles.input}
-              placeholder="Min. 8 characters"
+              placeholder="Enter your password"
               secureTextEntry
               value={values.password}
               onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}
-            />
+            ></TextInput>
             <FormError
               message={touched.password ? errors.password : undefined}
-            />
-
-            <Text style={styles.label}>Confirm Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Re-enter your password"
-              secureTextEntry
-              value={values.confirmPassword}
-              onChangeText={handleChange("confirmPassword")}
-              onBlur={handleBlur("confirmPassword")}
-            />
-            <FormError
-              message={
-                touched.confirmPassword ? errors.confirmPassword : undefined
-              }
             />
 
             <Pressable
@@ -131,12 +102,13 @@ export default function SignUpScreen() {
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <ActivityIndicator color="white" />
+                <ActivityIndicator />
               ) : (
-                <Text style={styles.buttonText}>Create Account</Text>
+                <Text style={styles.buttonText}>Sign In</Text>
               )}
             </Pressable>
 
+            {/* Global Error */}
             {status && <FormError message={status} />}
           </View>
         )}
@@ -146,10 +118,6 @@ export default function SignUpScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    backgroundColor: "white",
-    flex: 1,
-  },
   container: {
     padding: 16,
     gap: 10,
@@ -172,17 +140,25 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   button: {
-    marginTop: 8,
-    backgroundColor: "#111",
-    paddingVertical: 12,
+    width: "100%",
+    borderColor: "black",
+    borderWidth: 1,
     borderRadius: 8,
-    alignItems: "center",
+    padding: 8,
+    marginTop: 10,
+    backgroundColor: "black",
   },
   buttonDisabled: {
     opacity: 0.6,
   },
   buttonText: {
+    textAlign: "center",
     color: "white",
+    fontSize: 15,
     fontWeight: "700",
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "white",
   },
 });
