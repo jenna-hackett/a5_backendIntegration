@@ -1,4 +1,6 @@
+import { useAuth } from "@/contexts/authContext";
 import FormError from "@/src/utils/FormError";
+import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import {
   ActivityIndicator,
@@ -43,6 +45,9 @@ const initialValues: SignUpValues = {
 };
 
 export default function SignUpScreen() {
+  const { register } = useAuth();
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <Formik
@@ -51,10 +56,13 @@ export default function SignUpScreen() {
         onSubmit={async (values, { setStatus, resetForm }) => {
           setStatus(undefined);
           try {
+            await register(values.email, values.password);
             console.log("Signed up!", values);
             Alert.alert("Success", "Account Created!");
             resetForm();
+            router.replace("/(protected)/infoForm");
           } catch (err) {
+            console.log(err);
             setStatus("Something went wrong. Please try again.");
           }
         }}

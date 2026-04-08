@@ -1,8 +1,9 @@
+import { useAuth } from "@/contexts/authContext";
 import FormError from "@/src/utils/FormError";
+import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import {
   ActivityIndicator,
-  Alert,
   Pressable,
   StyleSheet,
   Text,
@@ -26,7 +27,9 @@ const loginSchema = Yup.object({
     .required("Password is required"),
 });
 
-export default function signIn() {
+export default function SignIn() {
+  const { login } = useAuth();
+  const router = useRouter();
   const initialValues: LoginValues = { email: "", password: "" };
 
   return (
@@ -37,23 +40,12 @@ export default function signIn() {
         onSubmit={async (values, { setStatus, resetForm }) => {
           setStatus(undefined);
           try {
-            console.log("Form is valid! Data:", values);
-
-            // Create the pop-up
-            Alert.alert(
-              "Login Successful",
-              "Welcome back! You have successfully signed in.",
-              [
-                {
-                  text: "OK",
-                  onPress: () => {
-                    console.log("User clicked OK");
-                    resetForm(); // Clears the inputs after successful login.
-                  },
-                },
-              ],
-            );
+            await login(values.email, values.password);
+            router.replace("/(protected)/infoForm");
+            console.log("Logged In");
+            resetForm();
           } catch (err) {
+            console.log(err);
             setStatus("Login failed. Please check your credentials.");
           }
         }}
@@ -113,6 +105,9 @@ export default function signIn() {
           </View>
         )}
       </Formik>
+      <Pressable onPress={() => router.push("/signUp")}>
+        <Text>Sign Up</Text>
+      </Pressable>
     </SafeAreaView>
   );
 }

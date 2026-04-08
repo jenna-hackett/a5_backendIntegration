@@ -53,7 +53,7 @@ export default function InfoForm() {
 
   const handleLogout = async () => {
     await logout();
-    router.push("/");
+    router.push("/signIn");
   };
 
   const handleFormSubmit = async (

@@ -13,6 +13,8 @@ function RootNavigator() {
   }
   return (
     <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" />
+
       <Stack.Protected guard={!user}>
         <Stack.Screen name="(auth)" />
       </Stack.Protected>
@@ -20,8 +22,6 @@ function RootNavigator() {
       <Stack.Protected guard={!!user}>
         <Stack.Screen name="(protected" />
       </Stack.Protected>
-
-      <Stack.Screen name="index" />
     </Stack>
   );
 }
