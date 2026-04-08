@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import {
   ActivityIndicator,
@@ -44,12 +45,16 @@ const initialValues: infoValues = {
   sin: "",
 };
 export default function InfoForm() {
+  const router = useRouter();
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Employee Information Form</Text>
-          <Pressable style={styles.smallButton}>
+          <Pressable
+            onPress={() => router.push("/")}
+            style={styles.smallButton}
+          >
             <Text style={styles.buttonText}>Log Out</Text>
           </Pressable>
         </View>
