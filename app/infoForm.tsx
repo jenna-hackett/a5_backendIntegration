@@ -27,13 +27,13 @@ const infoSchema = Yup.object({
   lastName: Yup.string().required("Last name cannot be blank"),
   phone: Yup.string()
     .required("Phone number cannot be blank")
-    .min(10, "Phone number must be at least 10 digits")
-    .max(10, "Phone number cannot be longer than 10 digits"),
-  email: Yup.string().email("Must be a valid email"),
+    .length(10, "Phone number must be 10 digits"),
+  email: Yup.string()
+    .email("Must be a valid email")
+    .required("Email cannot be blank"),
   sin: Yup.string()
     .required("SIN cannot be blank")
-    .min(9, "SIN must be at least 10 digits")
-    .max(9, "SIN cannot be longer than 9 digits"),
+    .length(10, "SIN must be 10 digits"),
 });
 
 const initialValues: infoValues = {
@@ -49,6 +49,9 @@ export default function InfoForm() {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Employee Information Form</Text>
+          <Pressable style={styles.smallButton}>
+            <Text style={styles.buttonText}>Log Out</Text>
+          </Pressable>
         </View>
         <Formik
           initialValues={initialValues}
@@ -179,6 +182,8 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingVertical: 35,
+    flexDirection: "column",
+    alignItems: "center",
   },
   headerText: {
     fontSize: 28,
@@ -224,5 +229,14 @@ const styles = StyleSheet.create({
   },
   disabled: {
     opacity: 0.6,
+  },
+  smallButton: {
+    width: "30%",
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 8,
+    marginTop: 10,
+    backgroundColor: "black",
   },
 });

@@ -8,15 +8,20 @@
  * ********** NOTE: Should signUp/signIn not be successful, user will receive an error asking to try again(?)
  */
 
-import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
+  const router = useRouter();
   return (
     <SafeAreaView>
       <View>
         <Text>Welcome!</Text>
         <Text>Please sign up or sign in to access the Information Form.</Text>
+        <Pressable onPress={() => router.push("/infoForm")}>
+          <Text>InfoForm</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
