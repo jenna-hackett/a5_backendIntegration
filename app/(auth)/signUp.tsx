@@ -60,7 +60,7 @@ export default function SignUpScreen() {
             console.log("Signed up!", values);
             Alert.alert("Success", "Account Created!");
             resetForm();
-            router.replace("/(protected)/infoForm");
+            router.replace("/infoForm");
             {
               /*change this link to /(protected)/signIn*/
             }
