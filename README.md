@@ -6,15 +6,15 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 1. Install dependencies
 
-   ```bash
+```bash
    npm install
-   ```
+```
 
 2. Start the app
 
-   ```bash
+```bash
    npx expo start
-   ```
+```
 
 In the output, you'll find options to open the app in a
 
@@ -48,3 +48,39 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## Backend Integration for Authentication & Form Data Persistence
+
+### By Jenna Hackett, Aurora Choban and Verity Boyd
+
+This project integrates a backend service to support user authentication and persistent form data storage.
+
+**Backend:** Firebase
+
+### Setup
+
+1. Install dependencies
+
+```bash
+   npm install
+```
+
+2. Start the app
+
+```bash
+   npx expo start
+```
+
+### Test Account
+
+| Field    | Value        |
+| -------- | ------------ |
+| Email    | test@test.ca |
+| Password | 12345678     |
+
+### Implemented Features
+
+- Create new user
+- Authenticate user
+- Write to database
+- Read from database
