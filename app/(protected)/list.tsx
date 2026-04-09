@@ -52,6 +52,7 @@ export default function Submissions() {
             <Text style={styles.field}>Email: {item.email}</Text>
             <Text style={styles.field}>Phone: {item.phone}</Text>
             <Text style={styles.field}>SIN: {item.sin}</Text>
+            <Text style={styles.field}>User ID: {item.userId}</Text>
           </View>
         ))}
       </View>
