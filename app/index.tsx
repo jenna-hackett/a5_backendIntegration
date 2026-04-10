@@ -1,9 +1,18 @@
+import { useAuth } from "@/contexts/authContext";
 import { useRouter } from "expo-router";
+import { useEffect } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const router = useRouter();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/(protected)/infoForm");
+    }
+  }, [user]);
   return (
     <SafeAreaView style={styles.safeArea}>
       <View>
@@ -13,13 +22,13 @@ export default function Index() {
         </Text>
         <View style={styles.buttons}>
           <Pressable
-            onPress={() => router.push("/signUp")}
+            onPress={() => router.push("/(auth)/signUp")}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Sign Up</Text>
           </Pressable>
           <Pressable
-            onPress={() => router.push("/signIn")}
+            onPress={() => router.push("/(auth)/signIn")}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Sign In</Text>
